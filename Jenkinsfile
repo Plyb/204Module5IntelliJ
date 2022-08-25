@@ -1,7 +1,7 @@
 pipeline {
     environment {
 
-            registry = "plby/204module7calc"
+            registry = "plyb/204module7calc"
 
             registryCredential = 'dockerhub'
 
