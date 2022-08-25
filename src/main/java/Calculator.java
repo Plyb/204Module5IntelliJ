@@ -1,3 +1,7 @@
+import java.nio.charset.Charset;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 class Calculator {
 
@@ -42,7 +46,7 @@ class Calculator {
         if (n < 2) {
             return n;
         }
-        return  fibonacciNumberFinder(n - 1) + fibonacciNumberFinder(n + 2);
+        return  fibonacciNumberFinder(n - 1) + fibonacciNumberFinder(n - 2);
     }
 
 
@@ -57,6 +61,8 @@ class Calculator {
         return Integer.toBinaryString(n);
     }
 
+    Set<String> ids = new HashSet<>();
+
     /*
     Create a completely unique String identifier for a given string
     Each createdID must contain the string n in its unaltered Form
@@ -66,8 +72,25 @@ class Calculator {
     if you run this function twice with the same String input, it must return 2 unique String IDs
      */
     String createUniqueID(String n){
+        String fullId = n + generateRandomString();
+        while (ids.contains(fullId)) {
+            fullId = n + generateRandomString();
+        }
+        ids.add(fullId);
+        return fullId;
+    }
 
-        return null;
+    private String generateRandomString() {
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        return random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 
 
